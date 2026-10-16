@@ -42,6 +42,7 @@ export function useAirTraffic() {
             remaining: data.remaining,
             authMode: data.authMode,
             upstreamStatus: data.upstreamStatus,
+            diagnostic: data.diagnostic ?? null,
             nextPollMs: data.nextPollMs || 60000,
             nextAt: Date.now() + (data.nextPollMs || 60000),
           });
@@ -51,6 +52,8 @@ export function useAirTraffic() {
             connection: navigator.onLine ? "degraded" : "offline",
             issue:
               "OpenSky could not be reached. Keeping saved observations and retrying.",
+            upstreamStatus: null,
+            diagnostic: { stage: "dashboard", code: "DASHBOARD_CONNECTION_FAILED", retryable: true },
             nextAt: Date.now() + 60000,
           });
       } finally {

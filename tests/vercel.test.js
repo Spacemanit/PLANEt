@@ -6,6 +6,8 @@ import { createOpenSky } from "../server/opensky.js";
 import { planeModelFor, FLIGHT_VIEW_DISTANCE } from "../src/lib/models.js";
 import { demoRows } from "../src/lib/demo.js";
 import { WORLD } from "../shared/regions.js";
+import { openSkyEnvironment } from "../server/config.js";
+import health from "../api/health.js";
 
 function response() {
   return {
@@ -138,6 +140,50 @@ test("native Vercel entry point reads environment credentials and never sends th
     assert.equal(JSON.parse(res.body).authMode, "authenticated");
     for (const secret of ["fixture-secret", "fixture-client", "private-token"])
       assert.ok(!res.body.toString().includes(secret));
+  } finally {
+    globalThis.fetch = oldFetch;
+    if (oldId === undefined) delete process.env.OPENSKY_CLIENT_ID;
+    else process.env.OPENSKY_CLIENT_ID = oldId;
+    if (oldSecret === undefined) delete process.env.OPENSKY_CLIENT_SECRET;
+    else process.env.OPENSKY_CLIENT_SECRET = oldSecret;
+  }
+});
+
+test("deployment health reports missing settings without contacting OpenSky or exposing values", () => {
+  assert.deepEqual(openSkyEnvironment({}).missingEnvironment, ["OPENSKY_CLIENT_ID", "OPENSKY_CLIENT_SECRET"]);
+  assert.equal(openSkyEnvironment({ OPENSKY_CLIENT_ID: " ", OPENSKY_CLIENT_SECRET: " \n " }).configured, false);
+  const configured = openSkyEnvironment({ OPENSKY_CLIENT_ID: " client ", OPENSKY_CLIENT_SECRET: " secret\n" });
+  assert.equal(configured.configured, true);
+  assert.equal(configured.credentials.clientSecret, "secret");
+  assert.deepEqual(configured.missingEnvironment, []);
+  const res = response();
+  health({}, res);
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.headers["cache-control"], "no-store");
+  const payload = JSON.parse(res.body);
+  assert.equal(payload.ok, true);
+  assert.equal(typeof payload.openskyConfigured, "boolean");
+  assert.ok(Array.isArray(payload.missingEnvironment));
+  assert.deepEqual(Object.keys(payload).sort(), ["missingEnvironment", "ok", "openskyConfigured"]);
+});
+
+test("deployed entry point returns actionable configuration errors without a network request", async () => {
+  const oldFetch = globalThis.fetch,
+    oldId = process.env.OPENSKY_CLIENT_ID,
+    oldSecret = process.env.OPENSKY_CLIENT_SECRET;
+  delete process.env.OPENSKY_CLIENT_ID;
+  delete process.env.OPENSKY_CLIENT_SECRET;
+  globalThis.fetch = async () => { throw new Error("An anonymous network request must not be attempted"); };
+  try {
+    const { default: handler } = await import("../api/aircraft.js?missing-environment");
+    const res = response();
+    await handler({ method: "GET", url: "/api/aircraft", headers: {} }, res);
+    assert.equal(res.statusCode, 503);
+    assert.equal(res.headers["cache-control"], "no-store");
+    const payload = JSON.parse(res.body);
+    assert.equal(payload.authMode, "unconfigured");
+    assert.equal(payload.diagnostic.code, "MISSING_CREDENTIALS");
+    assert.match(payload.issue, /OPENSKY_CLIENT_ID and OPENSKY_CLIENT_SECRET/);
   } finally {
     globalThis.fetch = oldFetch;
     if (oldId === undefined) delete process.env.OPENSKY_CLIENT_ID;

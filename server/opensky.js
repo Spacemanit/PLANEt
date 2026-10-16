@@ -6,10 +6,11 @@ const STATES_URL = "https://opensky-network.org/api/states/all";
 export const BASE_INTERVAL = 60_000;
 
 class UpstreamError extends Error {
-  constructor(message, status, retryMs) {
+  constructor(message, status, retryMs, details = {}) {
     super(message);
     this.status = status;
     this.retryMs = retryMs;
+    this.details = details;
   }
 }
 
@@ -30,6 +31,7 @@ export function createOpenSky({
   now = Date.now,
   initialCache = [],
   onCache = () => {},
+  requireCredentials = false,
 } = {}) {
   const clientId = credentials.clientId || credentials.client_id;
   const clientSecret = credentials.clientSecret || credentials.client_secret;
@@ -64,33 +66,99 @@ export function createOpenSky({
     failures = 0,
     remaining = null,
     issue = null,
-    upstreamStatus = null;
+    upstreamStatus = null,
+    diagnostic = null;
+
+  async function connect(url, options, stage) {
+    try {
+      return await fetcher(url, options);
+    } catch (error) {
+      // Report only a fixed set of safe codes, never URLs, tokens or raw errors.
+      const codes = [
+        "UND_ERR_CONNECT_TIMEOUT",
+        "UND_ERR_HEADERS_TIMEOUT",
+        "UND_ERR_BODY_TIMEOUT",
+        "ENOTFOUND", "EAI_AGAIN", "ECONNREFUSED", "ECONNRESET", "ENETUNREACH",
+        "ETIMEDOUT", "CERT_HAS_EXPIRED", "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+      ];
+      const candidate = error.cause?.code || error.code;
+      const networkCode = codes.includes(candidate) ? candidate : null;
+      const timedOut =
+        error.name === "TimeoutError" ||
+        ["UND_ERR_CONNECT_TIMEOUT", "UND_ERR_HEADERS_TIMEOUT", "UND_ERR_BODY_TIMEOUT", "ETIMEDOUT"].includes(networkCode);
+      const target =
+        stage === "authentication"
+          ? "OpenSky’s sign-in service"
+          : "OpenSky’s aircraft service";
+      throw new UpstreamError(
+        timedOut
+          ? `The server connection to ${target} timed out before an HTTP response. Retrying automatically.`
+          : `The server could not connect to ${target}. Retrying automatically.`,
+        null,
+        undefined,
+        {
+          stage,
+          code: timedOut ? "CONNECTION_TIMEOUT" : "CONNECTION_FAILED",
+          networkCode,
+          retryable: true,
+        },
+      );
+    }
+  }
+
+  async function readJson(res, stage) {
+    try {
+      return await res.json();
+    } catch {
+      throw new UpstreamError(
+        `OpenSky returned an unreadable ${stage === "authentication" ? "authentication" : "aircraft"} response. Retrying automatically.`,
+        res.status,
+        undefined,
+        { stage, code: "INVALID_RESPONSE", retryable: true },
+      );
+    }
+  }
 
   async function getToken() {
     if (token && tokenExpires > now() + 30_000) return token;
     if (tokenPromise) return tokenPromise;
     tokenPromise = (async () => {
-      const res = await fetcher(TOKEN_URL, {
-        method: "POST",
-        signal: AbortSignal.timeout(12_000),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          grant_type: "client_credentials",
-          client_id: clientId,
-          client_secret: clientSecret,
-        }),
-      });
+      const res = await connect(
+        TOKEN_URL,
+        {
+          method: "POST",
+          signal: AbortSignal.timeout(12_000),
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            grant_type: "client_credentials",
+            client_id: clientId,
+            client_secret: clientSecret,
+          }),
+        },
+        "authentication",
+      );
       if (!res.ok)
         throw new UpstreamError(
-          "OpenSky authentication is unavailable. Check the server credentials.",
+          res.status === 400 || res.status === 401
+            ? "OpenSky rejected the client credentials. Check the Production environment variables and redeploy."
+            : "OpenSky’s sign-in service is unavailable. Retrying automatically.",
           res.status,
           res.status === 429 ? retryDelay(res.headers, now()) : 300_000,
+          {
+            stage: "authentication",
+            code: [400, 401].includes(res.status)
+              ? "CREDENTIALS_REJECTED"
+              : "AUTH_SERVICE_ERROR",
+            retryable: ![400, 401].includes(res.status),
+          },
         );
-      const data = await res.json();
-      if (typeof data.access_token !== "string")
+      const data = await readJson(res, "authentication");
+      if (typeof data?.access_token !== "string" || !data.access_token)
         throw new UpstreamError(
           "OpenSky returned an invalid authentication response.",
-          502,
+          res.status,
+          undefined,
+          { stage: "authentication", code: "INVALID_RESPONSE", retryable: true },
         );
       token = data.access_token;
       tokenExpires = now() + (Number(data.expires_in) || 1800) * 1000;
@@ -124,9 +192,12 @@ export function createOpenSky({
       fetchedAt: entry?.fetchedAt ?? null,
       source,
       issue: currentIssue,
+      diagnostic,
       snapshotAgeSeconds: age,
       remaining,
-      authMode: authenticated ? "authenticated" : "anonymous",
+      authMode: authenticated
+        ? "authenticated"
+        : requireCredentials ? "unconfigured" : "anonymous",
       nextPollMs: Math.max(interval(), blockedUntil - now()),
       retryAt: blockedUntil > now() ? blockedUntil : null,
       stale:
@@ -139,6 +210,7 @@ export function createOpenSky({
   async function refresh(bounds, key) {
     // A shared upstream gate prevents multiple regions/tabs spending credits at once.
     lastRequest = now();
+    upstreamStatus = null;
     try {
       const url = new URL(STATES_URL);
       if (bounds)
@@ -146,12 +218,16 @@ export function createOpenSky({
           url.searchParams.set(name, bounds[i]);
       url.searchParams.set("extended", "1");
       const request = async () =>
-        fetcher(url, {
-          headers: authenticated
-            ? { Authorization: `Bearer ${await getToken()}` }
-            : {},
-          signal: AbortSignal.timeout(12_000),
-        });
+        connect(
+          url,
+          {
+            headers: authenticated
+              ? { Authorization: `Bearer ${await getToken()}` }
+              : {},
+            signal: AbortSignal.timeout(12_000),
+          },
+          "aircraft",
+        );
       let res = await request();
       if (res.status === 401 && authenticated) {
         token = null;
@@ -171,9 +247,18 @@ export function createOpenSky({
               : "OpenSky is temporarily unavailable. Keeping the last observations.",
           res.status,
           res.status === 429 ? retryDelay(res.headers, now()) : undefined,
+          {
+            stage: "aircraft",
+            code: res.status === 429
+              ? "RATE_LIMITED"
+              : [401, 403].includes(res.status)
+                ? "ACCESS_DENIED" : "UPSTREAM_UNAVAILABLE",
+            retryable: true,
+          },
         );
-      const data = await res.json();
+      const data = await readJson(res, "aircraft");
       if (
+        !data ||
         !Number.isFinite(data.time) ||
         data.time > now() / 1000 + 120 ||
         !(data.states === null || Array.isArray(data.states)) ||
@@ -182,14 +267,18 @@ export function createOpenSky({
       ) {
         throw new UpstreamError(
           "OpenSky returned incomplete data. Keeping the last observations.",
-          502,
+          res.status,
+          undefined,
+          { stage: "aircraft", code: "INCOMPLETE_RESPONSE", retryable: true },
         );
       }
       const old = cache.get(key);
       if (old && data.time < old.time)
         throw new UpstreamError(
           "OpenSky returned an older snapshot. Keeping the newer observations.",
-          502,
+          res.status,
+          undefined,
+          { stage: "aircraft", code: "OLDER_SNAPSHOT", retryable: true },
         );
       const entry = {
         time: data.time,
@@ -202,11 +291,16 @@ export function createOpenSky({
       failures = 0;
       blockedUntil = 0;
       issue = null;
+      diagnostic = null;
       Promise.resolve(onCache([...cache])).catch(() => {});
       return result(entry, "live");
     } catch (error) {
       failures++;
-      upstreamStatus = error.status || upstreamStatus;
+      upstreamStatus = error instanceof UpstreamError ? error.status ?? null : null;
+      diagnostic =
+        error instanceof UpstreamError
+          ? error.details
+          : { stage: "aircraft", code: "UNEXPECTED_FAILURE", retryable: true };
       issue =
         error instanceof UpstreamError
           ? error.message
@@ -227,6 +321,19 @@ export function createOpenSky({
         throw new Error("Invalid geographical bounds");
       const key = bounds ? boundsKey(bounds) : "worldwide",
         entry = cache.get(key);
+      if (requireCredentials && !authenticated) {
+        const missing = [
+          !clientId && "OPENSKY_CLIENT_ID",
+          !clientSecret && "OPENSKY_CLIENT_SECRET",
+        ].filter(Boolean);
+        issue = `Live tracking needs deployment settings. Add ${missing.join(" and ")} in Vercel’s Production environment variables, then redeploy.`;
+        diagnostic = {
+          stage: "configuration",
+          code: "MISSING_CREDENTIALS",
+          retryable: false,
+        };
+        return result(entry);
+      }
       if (pending.has(key)) return pending.get(key);
       if (
         blockedUntil > now() ||

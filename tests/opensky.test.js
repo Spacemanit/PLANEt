@@ -217,3 +217,107 @@ test("malformed persisted caches do not prevent the service starting", async () 
     assert.equal((await api.getStates(bounds)).states.length, 1);
   }
 });
+
+test("required deployment credentials fail immediately without an anonymous request", async () => {
+  let requests = 0;
+  const api = createOpenSky({
+    credentials: { clientId: "configured-id" },
+    requireCredentials: true,
+    now: () => start,
+    fetcher: async () => { requests++; throw new Error("Must not connect"); },
+  });
+  const result = await api.getStates();
+  assert.equal(requests, 0);
+  assert.equal(result.authMode, "unconfigured");
+  assert.equal(result.upstreamStatus, null);
+  assert.equal(result.retryAt, null);
+  assert.equal(result.diagnostic.code, "MISSING_CREDENTIALS");
+  assert.equal(result.diagnostic.retryable, false);
+  assert.match(result.issue, /OPENSKY_CLIENT_SECRET/);
+  assert.doesNotMatch(result.issue, /OPENSKY_CLIENT_ID/);
+  assert.ok(!JSON.stringify(result).includes("configured-id"));
+});
+
+test("connection errors distinguish OAuth from aircraft timeouts and sanitize error details", async () => {
+  for (const stage of ["authentication", "aircraft"]) {
+    const api = createOpenSky({
+      credentials,
+      now: () => start,
+      fetcher: async (url) => {
+        if (stage === "aircraft" && String(url).includes("/token"))
+          return json({ access_token: "secret-token" });
+        throw new TypeError("sensitive raw failure", { cause: { code: "UND_ERR_CONNECT_TIMEOUT", request: "secret-token" } });
+      },
+    });
+    const result = await api.getStates();
+    assert.equal(result.upstreamStatus, null);
+    assert.equal(result.diagnostic.stage, stage);
+    assert.equal(result.diagnostic.code, "CONNECTION_TIMEOUT");
+    assert.equal(result.diagnostic.networkCode, "UND_ERR_CONNECT_TIMEOUT");
+    assert.equal(result.retryAt, start + 30000);
+    assert.ok(!JSON.stringify(result).includes("sensitive raw failure"));
+    assert.ok(!JSON.stringify(result).includes("secret-token"));
+  }
+});
+
+test("a failed connection clears the previous HTTP status and recovery clears diagnostics", async () => {
+  let time = start, fail = false;
+  const api = createOpenSky({
+    credentials,
+    now: () => time,
+    fetcher: async (url) => {
+      if (String(url).includes("/token")) return json({ access_token: "token" });
+      if (fail) throw new Error("secret-error", { cause: { code: "secret-code" } });
+      return json(snapshot(time));
+    },
+  });
+  assert.equal((await api.getStates()).upstreamStatus, 200);
+  time += 61000;
+  fail = true;
+  const failed = await api.getStates();
+  assert.equal(failed.upstreamStatus, null);
+  assert.equal(failed.states.length, 1);
+  assert.equal(failed.diagnostic.networkCode, null);
+  assert.ok(!JSON.stringify(failed).includes("secret-code"));
+  time += 61000;
+  fail = false;
+  const recovered = await api.getStates();
+  assert.equal(recovered.upstreamStatus, 200);
+  assert.equal(recovered.diagnostic, null);
+  assert.equal(recovered.issue, null);
+});
+
+test("rejected OAuth credentials are distinct from connection failures", async () => {
+  const api = createOpenSky({
+    credentials,
+    now: () => start,
+    fetcher: async () => json({ error_description: "do not reveal this" }, 401),
+  });
+  const result = await api.getStates();
+  assert.equal(result.upstreamStatus, 401);
+  assert.equal(result.diagnostic.stage, "authentication");
+  assert.equal(result.diagnostic.code, "CREDENTIALS_REJECTED");
+  assert.ok(!JSON.stringify(result).includes("do not reveal this"));
+});
+
+test("unreadable and null upstream bodies preserve a usable cache", async () => {
+  let time = start, body = "valid";
+  const api = createOpenSky({
+    credentials,
+    now: () => time,
+    fetcher: async (url) => {
+      if (String(url).includes("/token")) return json({ access_token: "token" });
+      return body === "valid" ? json(snapshot(time)) : body === "null" ? json(null) : new Response("private raw body");
+    },
+  });
+  await api.getStates();
+  for (const mode of ["unreadable", "null"]) {
+    time += 61000;
+    body = mode;
+    const result = await api.getStates();
+    assert.equal(result.states.length, 1);
+    assert.equal(result.upstreamStatus, 200);
+    assert.equal(result.diagnostic.stage, "aircraft");
+    assert.ok(!JSON.stringify(result).includes("private raw body"));
+  }
+});

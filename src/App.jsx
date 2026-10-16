@@ -149,13 +149,15 @@ function FeedStatus({ now, onClose }) {
   const age = s.snapshotTime
     ? Math.max(0, Math.floor(now / 1000 - s.snapshotTime))
     : null;
-  const label = s.issue
-    ? "The feed needs a moment"
-    : age === null
-      ? "Waiting for a snapshot"
-      : age < 90
-        ? "The feed is current"
-        : "The feed is delayed";
+  const label = s.diagnostic?.code === "MISSING_CREDENTIALS"
+    ? "Live tracking needs setup"
+    : s.issue
+      ? "The feed needs a moment"
+      : age === null
+        ? "Waiting for a snapshot"
+        : age < 90
+          ? "The feed is current"
+          : "The feed is delayed";
   return (
     <Dialog
       title={s.demo ? "You’re in sample mode" : label}
@@ -182,7 +184,9 @@ function FeedStatus({ now, onClose }) {
                   : "OAuth credentials configured"
                 : s.authMode === "anonymous"
                   ? "Anonymous access"
-                  : "Not connected yet"}
+                  : s.authMode === "unconfigured"
+                    ? "Deployment credentials missing"
+                    : "Not connected yet"}
           </dd>
         </div>
         <div>
@@ -192,7 +196,11 @@ function FeedStatus({ now, onClose }) {
               ? "Not requested in sample mode"
               : s.upstreamStatus
                 ? `HTTP ${s.upstreamStatus}`
-                : "Not available yet"}
+                : s.diagnostic?.stage === "configuration"
+                  ? "Not requested · settings missing"
+                  : s.diagnostic
+                    ? "No HTTP response received"
+                    : "Not available yet"}
           </dd>
         </div>
         <div>
@@ -224,7 +232,26 @@ function FeedStatus({ now, onClose }) {
               : (s.remaining?.toLocaleString() ?? "Not reported")}
           </dd>
         </div>
+        {!s.demo && s.diagnostic && (
+          <div>
+            <dt>Connection check</dt>
+            <dd>
+              {({ configuration: "Deployment settings", authentication: "OpenSky sign-in", aircraft: "OpenSky aircraft feed", dashboard: "Dashboard connection" })[s.diagnostic.stage] || "OpenSky feed"}
+              {s.diagnostic.networkCode && <small> · {s.diagnostic.networkCode}</small>}
+            </dd>
+          </div>
+        )}
       </dl>
+      {!s.demo && ["CONNECTION_TIMEOUT", "CONNECTION_FAILED"].includes(s.diagnostic?.code) && (
+        <div className="feed-explanation">
+          <strong>About hosted connections</strong>
+          <p>
+            The server could not reach OpenSky. This can happen during an outage
+            or when OpenSky restricts a hosting provider’s network. A timeout
+            alone does not confirm a block. <a href="https://github.com/openskynetwork/opensky-api/blob/master/docs/free/index.rst" target="_blank" rel="noreferrer">OpenSky’s hosting notice ↗</a>
+          </p>
+        </div>
+      )}
       <div className="feed-explanation">
         <strong>Why can a map look empty?</strong>
         <p>
@@ -514,17 +541,19 @@ export default function App() {
   const seconds = Math.max(0, Math.ceil((s.nextAt - now) / 1000));
   const label = s.demo
     ? "Sample airspace"
-    : s.paused
-      ? "Updates paused"
-      : s.fetching && !s.fetchedAt
-        ? "Connecting to OpenSky"
-        : s.connection === "live"
-          ? "Connected to OpenSky"
-          : s.connection === "offline"
-            ? "You’re offline"
-            : s.connection === "connecting"
-              ? "Connecting to OpenSky"
-              : "Waiting for OpenSky";
+    : s.authMode === "unconfigured"
+      ? "Live feed needs setup"
+      : s.paused
+        ? "Updates paused"
+        : s.fetching && !s.fetchedAt
+          ? "Connecting to OpenSky"
+          : s.connection === "live"
+            ? "Connected to OpenSky"
+            : s.connection === "offline"
+              ? "You’re offline"
+              : s.connection === "connecting"
+                ? "Connecting to OpenSky"
+                : "Waiting for OpenSky";
   return (
     <>
       <header className="app-header">
@@ -768,6 +797,8 @@ export default function App() {
             <span className="refresh-countdown">
               {s.paused ? (
                 "Taking a breather"
+              ) : s.diagnostic?.code === "MISSING_CREDENTIALS" && !s.demo ? (
+                "Deployment setup needed"
               ) : s.fetching ? (
                 <>
                   <LoaderCircle size={13} className="spin" /> Updating…

@@ -41,6 +41,7 @@ export const useStore = create((set, get) => ({
   authMode: null,
   snapshotTime: null,
   upstreamStatus: null,
+  diagnostic: null,
   receivedCount: null,
   focusVersion: 0,
   view: "airspace",
@@ -77,6 +78,7 @@ export const useStore = create((set, get) => ({
       fetchedAt: payload.fetchedAt,
       snapshotTime: payload.time,
       upstreamStatus: payload.upstreamStatus,
+      diagnostic: payload.diagnostic ?? null,
       receivedCount: payload.states.length,
       remaining: payload.remaining,
       retryAt: payload.retryAt,
@@ -114,6 +116,7 @@ export const useStore = create((set, get) => ({
       remaining: null,
       snapshotTime: Math.floor(now / 1000),
       receivedCount: Object.keys(aircraft).length,
+      diagnostic: null,
     });
   },
   setDemo: (demo) => {
@@ -160,6 +163,8 @@ export const useStore = create((set, get) => ({
         remaining: null,
         snapshotTime: null,
         upstreamStatus: null,
+        diagnostic: null,
+        authMode: null,
         receivedCount: null,
         paused: false,
       });

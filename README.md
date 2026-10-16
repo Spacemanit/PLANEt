@@ -21,12 +21,24 @@ The project uses **Vite static output + Node Vercel Functions**. No separate bac
 
 1. Push this project to your own Git repository. Keep all three source models in the root: `realistic_earth_8k.glb`, `cartoon_plane.glb`, and `ss500_cartoon_plane.glb`.
 2. Import the repository into Vercel. Use the **Vite** framework preset and Node.js 22 or newer. `vercel.json` supplies build command `npm run build`, output directory `dist`, and Function settings.
-3. Add **server environment variables** `OPENSKY_CLIENT_ID` and `OPENSKY_CLIENT_SECRET` for the deployment environments you use.
+3. In your Vercel project, open **Settings → Environment Variables**. Add `OPENSKY_CLIENT_ID` with the `clientId` value from your local `credentials.json`, and `OPENSKY_CLIENT_SECRET` with its `clientSecret` value. Select **Production** (and Preview if needed). Enter the values without JSON quotes.
 4. Deploy. The webpage is at `/`, the worldwide feed at `/api/aircraft`, and the health check at `/api/health`.
 
-No deployment has been published to a Vercel account yet. Future Git pushes can use Vercel's normal deployment workflow after import.
+After adding or changing environment variables, **redeploy**: existing deployments keep their previous settings. Future Git pushes can use Vercel's normal deployment workflow after import.
 
 Never prefix the credentials with `VITE_` or put them in `public/`. Git ignores `credentials.json`, and `.vercelignore` excludes it and local environment files from CLI uploads. The deployed function reads environment variables only and never opens the local credential file.
+
+### Diagnose a deployed feed
+
+Open `/api/health` first. `ok: true` means the function is running. `openskyConfigured: true` means both server variables are present; it does **not** mean OpenSky has accepted them. `missingEnvironment` lists missing variable names, never their values. This endpoint makes no OpenSky requests.
+
+Then inspect **Feed status** or `/api/aircraft`. Missing deployment credentials now fail immediately with `MISSING_CREDENTIALS`, rather than silently attempting anonymous requests. Local use still supports anonymous access. Connection errors distinguish the sign-in service from the aircraft service, report a safe network error code when available, and keep saved observations. Failed attempts clear any previous upstream HTTP status so an old 200 cannot be mistaken for the failed request's response.
+
+A deployment check found the webpage and health function working, while `/api/aircraft` returned 503, `authMode: "anonymous"`, and no upstream HTTP response after roughly 11 seconds. That establishes missing deployed credentials and a connection failure; it does not establish a Vercel execution timeout or an OpenSky rate-limit response.
+
+After adding the Production variables and redeploying, the same deployed endpoint reported `authMode: "authenticated"` but still timed out without an upstream HTTP response in about 11 seconds. A fresh local authenticated check returned HTTP 200 in 4.2 seconds, with 12,644 aircraft and a snapshot 6 seconds old. The deployed credentials are now present; the remaining failure concerns the connection from the hosting environment. The existing deployed generic error does not identify whether sign-in or aircraft retrieval failed; deploy the updated diagnostics to distinguish them.
+
+If the feed still times out **after credentials are configured**, this may be an OpenSky outage or a hosting-network restriction. [OpenSky explicitly states that it may block AWS and other large cloud providers](https://github.com/openskynetwork/opensky-api/blob/master/docs/free/index.rst). Raising the Vercel duration cannot fix a blocked connection. This repository is deployable on Vercel, but live OpenSky access from Vercel cannot be guaranteed. Sample mode remains available for the interview and is always labeled simulated; local authenticated live access can be used if the hosting connection is restricted.
 
 ### Models are static assets
 
@@ -111,6 +123,7 @@ Optional browser check using installed Google Chrome and intercepted fixtures, w
 ```sh
 python -m pip install playwright
 python tests/browser_check.py
+python tests/browser_feed_check.py
 ```
 
 This checks worldwide markers, both GLBs, removal of the illustration, search, filters, details, movement/export, feed diagnostics, pause, sample isolation, layers, dialogs, and the 390 px mobile layout. Screenshots go to ignored `test-results/`.
