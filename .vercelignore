@@ -1,0 +1,8 @@
+credentials.json
+.env
+.env.*
+.cache/
+node_modules/
+test-results/
+tests/
+*.log

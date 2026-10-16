@@ -1,0 +1,2395 @@
+@import "@fontsource-variable/nunito";
+@import "@fontsource-variable/manrope";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Manrope Variable", sans-serif;
+}
+:root {
+  font-family: "Manrope Variable", sans-serif;
+  color: #34463e;
+  background: #f6f6f1;
+  font-synthesis: none;
+  font-size: 13px;
+  font-weight: 500;
+  --ink: #34463e;
+  --muted: #839087;
+  --coral: #e57f61;
+  --line: #e7e9df;
+  --paper: #fffef9;
+  --green: #4d8068;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+input,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+button {
+  color: inherit;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+button {
+  border: 0;
+  background: transparent;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #d79264;
+  outline-offset: 4px;
+}
+button:hover {
+  color: #c66b50;
+}
+input::placeholder {
+  color: #9aa198;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+svg {
+  flex-shrink: 0;
+}
+button svg {
+  pointer-events: none;
+}
+::selection {
+  background: #f2d7c9;
+}
+i {
+  font-style: normal;
+}
+.spin {
+  animation: spin 1.3s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.app-header {
+  height: 78px;
+  background: #fffef9;
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 1536px;
+  height: 100%;
+  padding: 0 54px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+.brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-family: "Nunito Variable", sans-serif;
+  font-size: 28px;
+  font-weight: 950;
+  letter-spacing: -1.3px;
+  line-height: 1;
+}
+.brand-mark {
+  position: relative;
+  color: var(--coral);
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+}
+.brand-mark i {
+  width: 44px;
+  height: 15px;
+  position: absolute;
+  border: 1.7px solid #67856c;
+  border-radius: 50%;
+  transform: rotate(-35deg);
+}
+.brand-dot {
+  color: var(--coral);
+}
+.header-inner nav {
+  display: flex;
+  gap: 29px;
+  height: 100%;
+  align-items: center;
+}
+.header-inner nav button {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 650;
+  color: #7d887f;
+}
+.header-inner nav button.nav-active {
+  color: #4a6555;
+}
+.nav-active > span {
+  height: 3px;
+  background: #e9896b;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 4px 4px 0 0;
+}
+.header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 23px;
+  align-items: center;
+}
+.header-caption {
+  font-size: 11px;
+  color: #8d988b;
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+}
+.icon-button:hover {
+  background: #eff0e8;
+}
+.help-button {
+  border: 1px solid #e3e7db;
+  border-radius: 50%;
+  color: #7e9080;
+}
+.app-main {
+  max-width: 1536px;
+  padding: 0 54px;
+  margin: 0 auto;
+}
+.intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 0 29px;
+  gap: 20px;
+}
+.intro-kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #889181;
+  font-size: 10.5px;
+  margin-bottom: 8px;
+  letter-spacing: 0.15px;
+}
+.intro-kicker > span {
+  width: 5px;
+  height: 5px;
+  background: #c0bd91;
+  border-radius: 50%;
+}
+h1 {
+  font-family: "Nunito Variable", sans-serif;
+  font-size: 37px;
+  line-height: 1.2;
+  letter-spacing: -1.35px;
+  font-weight: 850;
+}
+h1 > span {
+  color: var(--coral);
+}
+.intro p {
+  font-size: 12px;
+  color: #8b948b;
+  margin-top: 7px;
+}
+.connection-block {
+  text-align: right;
+  align-self: center;
+  padding-top: 15px;
+}
+.connection-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  border: 1px solid #dce6d5;
+  background: #edf2e7;
+  padding: 7px 11px;
+  border-radius: 20px;
+  color: #668260;
+  font-weight: 700;
+}
+.connection-pill > i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7a9d6a;
+  box-shadow: 0 0 0 3px #7a9d6a14;
+}
+.connection-pill.demo {
+  background: #f9ecd9;
+  color: #a47d46;
+  border-color: #eedabd;
+}
+.connection-pill.demo > i {
+  background: #c7a05c;
+}
+.connection-pill.waiting {
+  background: #f5ecd9;
+  color: #9c8155;
+  border-color: #eee0c2;
+}
+.connection-pill.waiting > i {
+  background: #c49c59;
+}
+.connection-pill.paused {
+  background: #eceee8;
+  color: #869180;
+  border-color: #dfe4d9;
+}
+.update-caption {
+  display: block;
+  font-size: 10px;
+  color: #9ba297;
+  margin-top: 8px;
+}
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  padding: 11px 15px;
+  border-radius: 12px;
+  border: 1px solid #ebdcc1;
+  margin: -7px 0 15px;
+  background: #faf2e0;
+  color: #927b53;
+}
+.notice span {
+  flex: 1;
+}
+.notice strong {
+  font-weight: 750;
+}
+.notice button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.connection-notice {
+  background: #f8eee5;
+  border-color: #eedfd0;
+  color: #99744f;
+}
+.airspace-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 339px;
+  min-height: 590px;
+  border: 1px solid #dfe5d9;
+  border-radius: 21px;
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow: 0 5px 20px #38573d04;
+}
+.map-panel {
+  position: relative;
+  min-width: 0;
+  background: #edf2e9;
+  overflow: hidden;
+  min-height: 590px;
+  display: flex;
+  flex-direction: column;
+}
+.map-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#8baba34a 0.65px, transparent 0.65px);
+  background-size: 21px 21px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.map-toolbar {
+  position: relative;
+  z-index: 3;
+  padding: 22px 25px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+.map-toolbar button,
+.map-toolbar label,
+.layers-popover {
+  pointer-events: auto;
+}
+.region-button {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  border: 1px solid #d9e2d3;
+  background: #fbfcf5d9;
+  padding: 10px 13px 10px 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px #4a654004;
+  text-align: left;
+  min-width: 221px;
+}
+.region-button:hover {
+  background: #fffef9;
+  color: var(--ink);
+}
+.region-button > span:nth-child(2) {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+}
+.region-button small {
+  font-size: 9px;
+  color: #8c9688;
+}
+.region-button strong {
+  font-size: 11px;
+  font-weight: 750;
+}
+.region-pin {
+  background: #e9eedd;
+  color: #758b62;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 33px;
+  border-radius: 8px;
+}
+.region-button > svg {
+  color: #8a967f;
+  margin-left: 14px;
+}
+.map-toolbar-right {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.map-live-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  color: #83957f;
+}
+.map-live-label svg {
+  color: #91a47f;
+}
+.layers-container {
+  position: relative;
+}
+.layers-button {
+  background: #fbfcf5cf;
+  border: 1px solid #dae2d4;
+  width: 35px;
+  height: 35px;
+  color: #7b8e77;
+  border-radius: 10px;
+}
+.layers-button.active {
+  background: #e0e9d9;
+}
+.layers-popover {
+  position: absolute;
+  right: 0;
+  top: 43px;
+  width: 218px;
+  background: var(--paper);
+  border: 1px solid #dee4d6;
+  border-radius: 12px;
+  box-shadow: 0 9px 22px #44573c12;
+  padding: 16px;
+  z-index: 10;
+}
+.layers-popover > strong {
+  font-family: "Nunito Variable";
+  font-size: 13px;
+  display: block;
+  margin-bottom: 14px;
+}
+.layers-popover label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  padding: 8px 0;
+  color: #7b8976;
+}
+.layers-popover input {
+  margin-left: auto;
+  accent-color: #77936c;
+}
+.globe-stage {
+  position: relative;
+  flex: 1;
+  min-height: 460px;
+  margin-top: -40px;
+}
+.globe-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  touch-action: none;
+}
+.globe-canvas canvas {
+  display: block;
+  max-width: 100%;
+  cursor: grab;
+}
+.globe-canvas canvas:active {
+  cursor: grabbing;
+}
+.globe-halo {
+  position: absolute;
+  width: 62%;
+  aspect-ratio: 1;
+  max-height: 82%;
+  border-radius: 50%;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    #bed7ce33 0%,
+    #d8e6d849 59%,
+    #cadfd733 60%,
+    transparent 69%
+  );
+  border: 1px dashed #b9cdb744;
+  box-shadow:
+    0 0 0 31px #d8e4d511,
+    0 0 0 32px #c7d9c12b;
+}
+.globe-halo::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  border: 1px solid #c6d7c336;
+  border-radius: 50%;
+}
+.globe-halo::after {
+  content: "";
+  position: absolute;
+  bottom: -2%;
+  left: 20%;
+  width: 60%;
+  height: 15%;
+  background: #94b6a04d;
+  filter: blur(17px);
+  border-radius: 50%;
+}
+.globe-loading {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 58px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  font-size: 10px;
+  color: #6c8477;
+  background: #f9fcf2e8;
+  padding: 9px 14px;
+  border: 1px solid #dbe5d4;
+  border-radius: 20px;
+}
+.globe-error {
+  position: absolute;
+  z-index: 4;
+  top: 30%;
+  left: 18%;
+  right: 18%;
+  padding: 28px;
+  background: #fffef9ee;
+  border: 1px solid #dae3d4;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  text-align: center;
+  color: #798b76;
+  font-size: 12px;
+}
+.globe-error > p {
+  max-width: 270px;
+  line-height: 1.7;
+}
+.globe-instruction {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #8a9b85;
+  z-index: 2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.globe-instruction svg {
+  color: #9aaa93;
+}
+.globe-controls {
+  position: absolute;
+  bottom: 23px;
+  right: 25px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fffef4d9;
+  border: 1px solid #dce4d4;
+  border-radius: 11px;
+  padding: 4px;
+  box-shadow: 0 3px 5px #3a634105;
+}
+.globe-controls button {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 29px;
+  font-size: 20px;
+  color: #75896f;
+  border-radius: 7px;
+}
+.globe-controls button:hover {
+  background: #e8eedf;
+}
+.globe-controls > span {
+  width: 20px;
+  border-top: 1px solid #e2e6d9;
+  margin: 3px 0;
+}
+.map-tooltip {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  background: #fffef5ee;
+  border: 1px solid #d8dfd0;
+  padding: 10px 12px;
+  border-radius: 9px;
+  box-shadow: 0 4px 9px #35563b15;
+  display: grid;
+  gap: 4px;
+}
+.map-tooltip strong {
+  font-size: 11px;
+}
+.map-tooltip span {
+  font-size: 9px;
+  color: #8b9483;
+}
+.map-decoration {
+  position: absolute;
+  color: #9aaf83;
+  pointer-events: none;
+}
+.decoration-one {
+  top: 32%;
+  left: 9%;
+  font-size: 22px;
+  transform: rotate(15deg);
+}
+.decoration-two {
+  bottom: 29%;
+  right: 11%;
+  font-size: 18px;
+  color: #a9b393;
+}
+.map-bottom {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px 18px;
+  border-top: 1px solid #dae4d16b;
+  background: #edf2e9a8;
+  gap: 10px;
+}
+.map-legend {
+  display: flex;
+  gap: 18px;
+  font-size: 9px;
+  color: #8b9880;
+}
+.map-legend > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  background: #e5a24c;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #e5a24c25;
+}
+.legend-dot.stale {
+  background: #a8afa0;
+  box-shadow: none;
+}
+.legend-line {
+  width: 15px;
+  height: 1.5px;
+  background: #b98f51;
+}
+.map-scale {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  color: #8a9b82;
+}
+.aircraft-panel {
+  border-left: 1px solid #e3e7da;
+  display: flex;
+  flex-direction: column;
+  min-height: 590px;
+  max-height: 590px;
+  min-width: 0;
+  background: #fffef9;
+}
+.panel-heading {
+  padding: 25px 23px 21px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.eyebrow {
+  color: #a0a58f;
+  font-size: 9px;
+  display: block;
+  margin-bottom: 5px;
+}
+.panel-heading h2 {
+  font-family: "Nunito Variable";
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.55px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.panel-heading h2 > span {
+  font-family: "Manrope Variable";
+  font-size: 10px;
+  font-weight: 700;
+  background: #eef1e5;
+  color: #8d9c7a;
+  border-radius: 6px;
+  padding: 3px 6px;
+  letter-spacing: 0;
+}
+.panel-plane {
+  transform: rotate(-10deg);
+  color: #cad2bd;
+  padding-right: 2px;
+}
+.aircraft-search {
+  margin: 0 21px;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  border: 1px solid #e4e7db;
+  border-radius: 9px;
+  padding: 9px 9px 9px 11px;
+  color: #a0aa94;
+  background: #fdfdf7;
+}
+.aircraft-search input {
+  border: none;
+  outline: none;
+  min-width: 0;
+  width: 100%;
+  font-size: 10px;
+  background: transparent;
+  color: #5f725c;
+}
+.aircraft-search input:focus-visible {
+  outline: 2px solid #c9ad80;
+  outline-offset: 6px;
+}
+.aircraft-search .icon-button {
+  width: 15px;
+  height: 18px;
+}
+.filter-button {
+  position: relative;
+  border-left: 1px solid #e1e6d6;
+  padding-left: 9px;
+  display: flex;
+  color: #8c9b7a;
+}
+.filter-button.active {
+  color: #c3815c;
+}
+.filter-button i {
+  width: 4px;
+  height: 4px;
+  background: #d58959;
+  border-radius: 50%;
+  position: absolute;
+  right: -2px;
+  top: -3px;
+}
+.list-labels {
+  display: flex;
+  justify-content: space-between;
+  margin: 18px 23px 6px;
+  font-size: 8px;
+  color: #a6ad9b;
+}
+.list-labels > span:last-child {
+  padding-right: 20px;
+}
+.aircraft-list {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #dee4d3 transparent;
+  flex: 1;
+  min-height: 0;
+  padding: 0 12px;
+}
+.aircraft-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 9px;
+  border-bottom: 1px solid #eff0e7;
+  text-align: left;
+  min-height: 68px;
+  border-radius: 7px;
+  color: #526548;
+}
+.aircraft-row:hover {
+  background: #f3f5eb;
+  color: #526548;
+}
+.flight-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: #b49267;
+  background: #f4f0e3;
+  border-radius: 10px;
+}
+.aircraft-row:nth-child(3n + 2) .flight-icon {
+  color: #8c9d74;
+  background: #eef2e3;
+}
+.aircraft-row:nth-child(3n) .flight-icon {
+  color: #b88e79;
+  background: #f7eee4;
+}
+.aircraft-name {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 5px;
+}
+.aircraft-name > strong {
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.1px;
+}
+.aircraft-name small {
+  font-size: 9px;
+  color: #9ba38e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+.aircraft-name i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #a7b58b;
+}
+.aircraft-name i.stale {
+  background: #c3b89b;
+}
+.aircraft-altitude {
+  text-align: right;
+  display: grid;
+  gap: 5px;
+}
+.aircraft-altitude > strong {
+  font-size: 10px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.aircraft-altitude > strong small {
+  font-size: 8px;
+  font-weight: 500;
+  color: #a0aa93;
+}
+.aircraft-altitude > small {
+  font-size: 9px;
+  color: #a1aa96;
+}
+.aircraft-row > svg {
+  color: #b4bda7;
+  margin-left: 1px;
+}
+.aircraft-row.is-stale {
+  opacity: 0.67;
+}
+.panel-footer {
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #a1ad93;
+  border-top: 1px solid #e9edde;
+  padding: 16px 13px;
+  background: #fbfcf4;
+}
+.panel-footer i {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b4c29e;
+}
+.panel-footer > svg {
+  margin-left: 4px;
+  color: #b0bda2;
+}
+.load-more {
+  display: block;
+  margin: 15px auto;
+  font-size: 10px;
+  color: #91a27c;
+  border-bottom: 1px solid #d8e0cd;
+  padding: 5px;
+}
+.filters-panel {
+  padding: 16px 21px 0;
+  background: #f8f9f0;
+  border-bottom: 1px solid #e8ecde;
+  margin-top: 10px;
+}
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 9px;
+}
+.filter-grid label {
+  font-size: 9px;
+  color: #89997b;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.filter-grid select {
+  font-size: 9px;
+  background: #fffef9;
+  border: 1px solid #e0e7d4;
+  padding: 7px 4px;
+  border-radius: 5px;
+  color: #6e805c;
+  min-width: 0;
+  width: 100%;
+}
+.filters-panel > .text-button {
+  font-size: 9px;
+  margin: 13px 0;
+}
+.empty-aircraft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 50px 20px;
+  gap: 12px;
+}
+.empty-aircraft > span {
+  background: #f1f2e6;
+  color: #bbc6a4;
+  padding: 17px;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+.empty-aircraft h3 {
+  font-family: "Nunito Variable";
+  font-weight: 800;
+  font-size: 17px;
+  color: #7f8f70;
+}
+.empty-aircraft p {
+  font-size: 10px;
+  color: #a3ad94;
+  line-height: 1.9;
+  max-width: 240px;
+}
+.button {
+  background: #f3f3e8;
+  border: 1px solid #dce2cf;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 8px;
+  padding: 10px 15px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #7e8e6a;
+}
+.button.small {
+  font-size: 10px;
+  padding: 9px 12px;
+}
+.button:hover {
+  background: #ebefdf;
+}
+.button.coral {
+  background: #e7896c;
+  color: #fffdf5;
+  border-color: #d27e62;
+}
+.button.coral:hover {
+  background: #dc7a5d;
+}
+.airspace-summary {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e7d8;
+  background: #fdfdf6;
+  border-radius: 15px;
+  margin-top: 18px;
+  padding: 24px 27px;
+  gap: 26px;
+  min-height: 113px;
+}
+.summary-region {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex: 1;
+  min-width: 190px;
+}
+.summary-icon {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #e4e9d8;
+  background: #f1f4e9;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: #9aab81;
+}
+.summary-region > div {
+  display: grid;
+  gap: 6px;
+}
+.summary-region strong {
+  font-family: "Nunito Variable";
+  font-weight: 850;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+}
+.summary-region > div > span {
+  font-size: 9px;
+  color: #9fa991;
+  max-width: 205px;
+  line-height: 1.6;
+}
+.summary-stat {
+  padding: 0 23px;
+  border-left: 1px solid #e5eada;
+  min-width: 158px;
+}
+.summary-stat > span {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: #a1ad91;
+  font-size: 9px;
+}
+.summary-stat > span > svg {
+  color: #b1bba2;
+}
+.summary-stat > strong {
+  font-family: "Nunito Variable";
+  font-size: 27px;
+  letter-spacing: -0.6px;
+  font-weight: 800;
+  display: block;
+  margin-top: 6px;
+  line-height: 1.2;
+}
+.summary-stat > strong > small {
+  font-family: "Manrope Variable";
+  font-size: 9px;
+  font-weight: 500;
+  margin-left: 7px;
+  letter-spacing: 0;
+  color: #a3ae94;
+}
+.summary-doodle {
+  width: 145px;
+  margin-left: auto;
+  text-align: center;
+  flex-shrink: 0;
+  align-self: center;
+}
+.summary-doodle svg {
+  width: 108px;
+  height: 52px;
+  display: block;
+  margin: auto;
+}
+.summary-doodle span {
+  font-family: "Nunito Variable";
+  font-style: italic;
+  font-weight: 650;
+  font-size: 10px;
+  color: #aab397;
+}
+.feed-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 3px;
+  gap: 15px;
+}
+.feed-source {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 9px;
+  color: #a0aa94;
+}
+.feed-source a {
+  display: inline-flex;
+  align-items: center;
+  color: #8c9a7d;
+}
+.source-icon {
+  display: grid;
+  place-items: center;
+  color: #a8b296;
+}
+.feed-divider {
+  border-left: 1px solid #dce2d3;
+  height: 12px;
+  margin: 0 5px;
+}
+.credits {
+  font-size: 9px;
+  color: #abb29f;
+}
+.feed-controls {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 9px;
+  color: #9ca88c;
+}
+.refresh-countdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 91px;
+}
+.pause-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #8b9a7b;
+  background: #edf0e4;
+  padding: 6px 8px;
+  border-radius: 5px;
+  font-size: 9px;
+}
+.sample-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 1px solid #dce2d3;
+  padding-left: 15px;
+  font-size: 9px;
+  color: #a8ad94;
+}
+.sample-button.active {
+  color: #b08c58;
+}
+.page-footer {
+  border-top: 1px solid #e4e8da;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 1px 25px;
+  color: #b2b8a7;
+  font-size: 9px;
+  gap: 15px;
+}
+.page-footer > span:last-child {
+  font-family: "Nunito Variable";
+  font-weight: 750;
+  font-size: 10px;
+}
+.page-footer i {
+  color: #ccac85;
+  margin: 0 7px;
+}
+.flight-details {
+  height: 100%;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e0e6d3 transparent;
+  padding: 18px 22px 23px;
+}
+.details-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #97a284;
+  font-weight: 650;
+}
+.text-button:hover {
+  color: #c2805c;
+}
+.signal-label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 8px;
+  color: #92a180;
+}
+.signal-label i {
+  width: 4px;
+  height: 4px;
+  background: #a6b78b;
+  border-radius: 50%;
+}
+.signal-label.stale,
+.signal-label.lost {
+  color: #b09b76;
+}
+.signal-label.stale i,
+.signal-label.lost i {
+  background: #c4aa7c;
+}
+.flight-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 23px;
+}
+.flight-icon.large {
+  width: 43px;
+  height: 43px;
+  border-radius: 12px;
+  color: #c19273;
+  background: #f7efe2;
+}
+.flight-identity > div {
+  flex: 1;
+}
+.flight-identity h2 {
+  font-family: "Nunito Variable";
+  font-size: 24px;
+  font-weight: 850;
+  letter-spacing: -0.7px;
+}
+.flight-identity p {
+  font-size: 10px;
+  color: #a2ac92;
+  margin-top: 3px;
+}
+.flight-identity .icon-button {
+  color: #abb69a;
+  width: 24px;
+}
+.aircraft-illustration {
+  position: relative;
+  height: 147px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 8px -5px 0;
+  background: radial-gradient(ellipse, #eef2e355 0%, transparent 65%);
+}
+.aircraft-illustration svg {
+  width: 270px;
+  height: 112px;
+  position: relative;
+  z-index: 1;
+}
+.aircraft-illustration > span:last-child {
+  font-size: 8px;
+  color: #a9b297;
+  position: relative;
+  z-index: 1;
+}
+.illustration-orbit {
+  position: absolute;
+  width: 190px;
+  height: 70px;
+  border: 1px dashed #dce5cf;
+  border-radius: 50%;
+  transform: rotate(-15deg);
+}
+.detail-tabs {
+  display: flex;
+  gap: 22px;
+  border-bottom: 1px solid #e7ebdb;
+  margin-bottom: 20px;
+}
+.detail-tabs button {
+  position: relative;
+  font-size: 10px;
+  font-weight: 650;
+  color: #a5b095;
+  padding: 12px 0;
+}
+.detail-tabs button.active {
+  color: #82956e;
+}
+.detail-tabs button.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  background: #d99171;
+  height: 2px;
+  border-radius: 2px;
+}
+.detail-tabs button > span {
+  font-size: 8px;
+  color: #9aab86;
+  margin-left: 4px;
+  background: #edf2e3;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+.flight-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 21px 20px;
+}
+.flight-metrics > div {
+  display: grid;
+  gap: 7px;
+}
+.flight-metrics > div > span {
+  font-size: 9px;
+  color: #a3ae92;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.flight-metrics strong {
+  font-family: "Nunito Variable";
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  font-weight: 800;
+}
+.flight-metrics strong small {
+  font-family: "Manrope Variable";
+  font-size: 9px;
+  font-weight: 500;
+  color: #9ca98a;
+  letter-spacing: 0;
+}
+.position-info {
+  border-top: 1px solid #e8ecdd;
+  margin-top: 22px;
+  padding-top: 18px;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #9fab8d;
+}
+.section-title h3 {
+  font-size: 9px;
+  font-weight: 600;
+}
+.section-title > span {
+  font-size: 8px;
+  margin-left: auto;
+  color: #acb59c;
+}
+.position-info > strong {
+  font-size: 11px;
+  display: block;
+  margin-top: 12px;
+  font-weight: 650;
+  color: #879775;
+}
+.position-info > strong > span {
+  font-weight: 400;
+  color: #c3c9b5;
+  margin: 0 5px;
+}
+.position-info > p {
+  font-size: 9px;
+  color: #acb59c;
+  margin-top: 6px;
+}
+.position-info > p.position-warning {
+  font-size: 9px;
+  line-height: 1.7;
+  background: #f8f2e6;
+  padding: 10px;
+  color: #b19b73;
+  border-radius: 7px;
+  margin-top: 12px;
+}
+.aircraft-facts {
+  font-size: 9px;
+  margin: 18px 0 15px;
+  display: grid;
+  gap: 12px;
+}
+.aircraft-facts > div {
+  display: flex;
+  justify-content: space-between;
+}
+.aircraft-facts dt {
+  color: #aab39a;
+}
+.aircraft-facts dd {
+  margin: 0;
+  color: #8b9a78;
+}
+.data-note {
+  font-size: 9px;
+  line-height: 1.9;
+  color: #afb79f;
+}
+.movement-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.movement-heading h3 {
+  font-family: "Nunito Variable";
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.movement-heading p {
+  font-size: 8px;
+  color: #a8b197;
+  margin-top: 4px;
+}
+.movement-heading .icon-button {
+  color: #a3b18c;
+}
+.movement-summary {
+  display: flex;
+  gap: 19px;
+  margin: 18px 0 0;
+  font-size: 9px;
+  color: #acb59b;
+}
+.movement-summary strong {
+  font-family: "Nunito Variable";
+  font-size: 17px;
+  font-weight: 800;
+  color: #7c9067;
+  margin-right: 3px;
+}
+.altitude-chart {
+  margin: 4px 0 17px;
+}
+.altitude-chart svg {
+  width: 100%;
+  height: auto;
+}
+.altitude-chart > div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 8px;
+  color: #b6bea6;
+}
+.chart-empty {
+  margin: 20px 0;
+  padding: 20px 10px;
+  border: 1px dashed #dce5cc;
+  border-radius: 9px;
+  color: #afbc9a;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 10px;
+  line-height: 1.8;
+}
+.observation-list {
+  max-height: 240px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #e4eadb transparent;
+  margin-bottom: 18px;
+}
+.observation {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f2e8;
+  font-size: 9px;
+  color: #acb69b;
+}
+.observation > i {
+  width: 5px;
+  height: 5px;
+  border: 1px solid #c8aa7d;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.observation > div {
+  display: grid;
+  gap: 4px;
+  flex: 1;
+}
+.observation strong {
+  font-size: 9px;
+  color: #8c9d76;
+  font-weight: 650;
+}
+.observation > div > span {
+  font-size: 8px;
+  color: #b6bea6;
+}
+.dialog {
+  background: #fffef9;
+  color: #566a49;
+  border: 1px solid #dce5ce;
+  border-radius: 22px;
+  padding: 28px;
+  max-width: 540px;
+  width: calc(100% - 36px);
+  box-shadow: 0 20px 100px #334d3f22;
+  margin: auto;
+  max-height: 85dvh;
+  overflow: auto;
+}
+.dialog::backdrop {
+  background: #304b3d4d;
+  backdrop-filter: blur(5px);
+}
+.dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.dialog-heading h2 {
+  font-family: "Nunito Variable";
+  font-size: 24px;
+  font-weight: 850;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+.dialog-heading .icon-button {
+  color: #a6b393;
+}
+.dialog-description {
+  color: #a0ad8e;
+  font-size: 11px;
+  line-height: 1.9;
+  margin-top: 10px;
+}
+.region-dialog {
+  max-width: 650px;
+}
+.region-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin-top: 24px;
+}
+.region-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 11px;
+  background: #f7f9ef;
+  border: 1px solid #e8ecdc;
+  border-radius: 11px;
+  text-align: left;
+  min-width: 0;
+}
+.region-option:hover,
+.region-option.selected {
+  background: #eef3e3;
+  border-color: #cbd8b8;
+  color: #607c4c;
+}
+.region-icon {
+  color: #a5b58c;
+}
+.region-option > span:nth-child(2) {
+  flex: 1;
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.region-option strong {
+  font-size: 11px;
+  font-weight: 750;
+}
+.region-option small {
+  font-size: 8px;
+  color: #a7b396;
+}
+.region-option > svg {
+  color: #b2c19f;
+}
+.custom-toggle {
+  margin-top: 22px;
+}
+.custom-region {
+  padding: 18px 0 0;
+  border-top: 1px solid #e8ecdc;
+  margin-top: 16px;
+}
+.custom-region > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.custom-region label {
+  display: grid;
+  gap: 6px;
+  color: #9cae88;
+  font-size: 10px;
+}
+.custom-region input {
+  border: 1px solid #dae4cc;
+  border-radius: 7px;
+  width: 100%;
+  padding: 9px;
+  background: #fafcf3;
+  font-size: 12px;
+  color: #7f986a;
+}
+.custom-region > p {
+  font-size: 10px;
+  color: #c48560;
+  margin-top: 10px;
+}
+.custom-region .button {
+  margin-top: 17px;
+}
+.custom-region > small {
+  font-size: 9px;
+  color: #a9b79b;
+  display: block;
+  margin-top: 10px;
+}
+.about-planet {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 30px 0 20px;
+  color: #a9bd8d;
+}
+.about-planet > span {
+  font-family: "Nunito Variable";
+  font-size: 27px;
+  font-weight: 850;
+  letter-spacing: -0.5px;
+  color: #879d6b;
+}
+.about-sections {
+  display: grid;
+  gap: 22px;
+  margin: 25px 0;
+}
+.about-sections > div {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  color: #b0bf99;
+}
+.about-sections strong {
+  display: block;
+  color: #7a9362;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+.about-sections p {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #a4b493;
+}
+.external-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #b9926d;
+  margin-top: 20px;
+}
+/* Keep the gentle palette, but make small information text readable at dashboard sizes. */
+.intro p,
+.update-caption,
+.header-caption {
+  color: #808b7c;
+}
+.aircraft-name small,
+.aircraft-altitude > small,
+.list-labels,
+.panel-footer,
+.map-legend,
+.map-scale,
+.globe-instruction,
+.feed-source,
+.feed-controls,
+.credits,
+.page-footer,
+.summary-region > div > span,
+.summary-stat > span,
+.summary-stat > strong > small,
+.summary-doodle span {
+  color: #85917b;
+}
+.eyebrow,
+.region-button small,
+.data-note,
+.aircraft-facts dt,
+.aircraft-facts dd,
+.position-info > p,
+.section-title,
+.section-title > span,
+.flight-metrics > div > span,
+.flight-metrics strong small,
+.movement-heading p,
+.dialog-description,
+.about-sections p,
+.empty-aircraft p {
+  color: #84947a;
+}
+@media (min-width: 1500px) {
+  .airspace-workspace {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    min-height: 625px;
+  }
+  .map-panel {
+    min-height: 625px;
+  }
+  .aircraft-panel {
+    min-height: 625px;
+    max-height: 625px;
+  }
+  .globe-stage {
+    min-height: 490px;
+  }
+  .summary-stat {
+    min-width: 180px;
+    padding: 0 27px;
+  }
+}
+@media (max-width: 1200px) {
+  .header-inner,
+  .app-main {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .header-inner {
+    gap: 40px;
+  }
+  .summary-doodle {
+    display: none;
+  }
+  .airspace-summary {
+    gap: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .summary-stat {
+    padding: 0 20px;
+    min-width: 135px;
+  }
+  .summary-region {
+    min-width: 160px;
+  }
+  .summary-region > div > span {
+    max-width: 155px;
+  }
+  .map-live-label {
+    display: none;
+  }
+  .airspace-workspace {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+  .map-toolbar {
+    padding: 20px 20px 0;
+  }
+  .map-bottom {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .map-legend {
+    gap: 12px;
+    font-size: 8px;
+  }
+  .globe-instruction {
+    font-size: 9px;
+    bottom: 25px;
+    left: 45%;
+  }
+  .map-scale {
+    display: none;
+  }
+  .summary-stat > strong {
+    font-size: 25px;
+  }
+}
+@media (max-width: 960px) {
+  .header-inner,
+  .app-main {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .header-caption {
+    display: none;
+  }
+  .header-inner {
+    gap: 35px;
+  }
+  .intro {
+    padding: 27px 0 24px;
+  }
+  h1 {
+    font-size: 33px;
+  }
+  .airspace-workspace {
+    grid-template-columns: minmax(0, 1fr) 295px;
+  }
+  .map-toolbar {
+    padding: 17px 16px 0;
+  }
+  .region-button {
+    min-width: 185px;
+    padding: 8px;
+    gap: 8px;
+  }
+  .region-button strong {
+    font-size: 10px;
+  }
+  .region-button > svg {
+    margin-left: 3px;
+  }
+  .region-pin {
+    width: 25px;
+    height: 30px;
+  }
+  .map-toolbar-right {
+    gap: 0;
+  }
+  .map-panel,
+  .aircraft-panel {
+    min-height: 570px;
+  }
+  .aircraft-panel {
+    max-height: 570px;
+  }
+  .globe-instruction {
+    font-size: 8px;
+    left: 42%;
+  }
+  .map-bottom {
+    padding-left: 16px;
+    padding-right: 12px;
+  }
+  .map-legend {
+    gap: 9px;
+    font-size: 7px;
+  }
+  .globe-controls {
+    right: 16px;
+    bottom: 50px;
+  }
+  .panel-heading {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .panel-heading h2 {
+    font-size: 18px;
+  }
+  .aircraft-search {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .list-labels {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+  .aircraft-row {
+    gap: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+  .aircraft-list {
+    padding: 0 11px;
+  }
+  .aircraft-name small {
+    max-width: 94px;
+  }
+  .flight-icon {
+    width: 29px;
+    height: 29px;
+  }
+  .summary-region {
+    min-width: 145px;
+    gap: 10px;
+  }
+  .summary-icon {
+    width: 37px;
+    height: 40px;
+  }
+  .summary-region > div > span {
+    max-width: 130px;
+    font-size: 8px;
+  }
+  .summary-stat {
+    padding-left: 15px;
+    padding-right: 7px;
+    min-width: 110px;
+  }
+  .summary-stat > strong {
+    font-size: 22px;
+  }
+  .summary-stat > span {
+    font-size: 8px;
+  }
+  .summary-stat > strong > small {
+    font-size: 8px;
+    margin-left: 4px;
+  }
+  .feed-divider,
+  .credits {
+    display: none;
+  }
+  .flight-details {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .flight-metrics strong {
+    font-size: 20px;
+  }
+  .section-title h3 {
+    font-size: 8px;
+  }
+  .map-decoration {
+    display: none;
+  }
+}
+@media (max-width: 760px) {
+  .header-inner {
+    padding: 0 20px;
+    gap: 30px;
+  }
+  .app-header {
+    height: 67px;
+  }
+  .brand {
+    font-size: 25px;
+  }
+  .brand-mark {
+    width: 30px;
+  }
+  .brand-mark > svg {
+    width: 23px;
+  }
+  .brand-mark i {
+    width: 38px;
+    height: 13px;
+  }
+  .header-inner nav {
+    gap: 22px;
+  }
+  .header-inner nav button {
+    font-size: 10px;
+  }
+  .header-inner nav button:nth-child(2) {
+    display: none;
+  }
+  .header-right {
+    gap: 0;
+  }
+  .help-button {
+    width: 29px;
+    height: 29px;
+  }
+  .app-main {
+    padding: 0 18px;
+  }
+  .intro {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 25px 0 23px;
+  }
+  .intro-kicker {
+    font-size: 9px;
+    margin-bottom: 9px;
+  }
+  h1 {
+    font-size: 29px;
+    letter-spacing: -1px;
+  }
+  .intro p {
+    font-size: 10px;
+    max-width: 220px;
+    line-height: 1.7;
+  }
+  .connection-block {
+    padding-top: 19px;
+    flex-shrink: 0;
+    max-width: 170px;
+  }
+  .connection-pill {
+    font-size: 8px;
+    padding: 6px 8px;
+    gap: 5px;
+  }
+  .update-caption {
+    font-size: 8px;
+    margin-top: 7px;
+  }
+  .airspace-workspace {
+    grid-template-columns: 1fr;
+    border-radius: 17px;
+  }
+  .map-panel {
+    min-height: 520px;
+    max-height: 520px;
+  }
+  .globe-stage {
+    min-height: 432px;
+    margin-top: -25px;
+  }
+  .globe-instruction {
+    font-size: 9px;
+    left: 50%;
+    bottom: 22px;
+  }
+  .map-toolbar {
+    padding: 18px 20px 0;
+  }
+  .region-button {
+    min-width: 222px;
+  }
+  .region-button strong {
+    font-size: 11px;
+  }
+  .map-live-label {
+    display: flex;
+    font-size: 8px;
+  }
+  .map-toolbar-right {
+    gap: 12px;
+  }
+  .map-bottom {
+    padding: 15px 20px;
+  }
+  .map-legend {
+    font-size: 8px;
+    gap: 18px;
+  }
+  .map-scale {
+    display: flex;
+    font-size: 8px;
+  }
+  .globe-controls {
+    right: 20px;
+    bottom: 23px;
+  }
+  .aircraft-panel {
+    border-left: none;
+    border-top: 1px solid #dfe5d6;
+    min-height: 415px;
+    max-height: 520px;
+  }
+  .panel-heading {
+    padding: 21px 22px 17px;
+  }
+  .panel-heading h2 {
+    font-size: 20px;
+  }
+  .aircraft-search {
+    margin: 0 22px;
+  }
+  .aircraft-search input {
+    font-size: 11px;
+  }
+  .list-labels {
+    font-size: 9px;
+    margin: 18px 24px 7px;
+  }
+  .aircraft-list {
+    padding: 0 18px;
+  }
+  .aircraft-row {
+    gap: 14px;
+    padding: 13px 8px;
+  }
+  .aircraft-name small {
+    max-width: 190px;
+    font-size: 10px;
+  }
+  .aircraft-name > strong {
+    font-size: 12px;
+  }
+  .flight-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .aircraft-altitude > strong {
+    font-size: 11px;
+  }
+  .aircraft-altitude > small {
+    font-size: 10px;
+  }
+  .panel-footer {
+    font-size: 9px;
+  }
+  .airspace-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 0;
+    padding: 21px;
+    margin-top: 15px;
+  }
+  .summary-region {
+    grid-column: 1/-1;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e6eadb;
+  }
+  .summary-region > div > span {
+    max-width: none;
+    font-size: 10px;
+  }
+  .summary-region strong {
+    font-size: 16px;
+  }
+  .summary-stat {
+    border: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  .summary-stat:last-of-type {
+    display: none;
+  }
+  .summary-stat > strong {
+    font-size: 26px;
+  }
+  .summary-stat > span {
+    font-size: 10px;
+  }
+  .summary-stat > strong > small {
+    font-size: 9px;
+    margin-left: 6px;
+  }
+  .feed-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 22px 5px;
+  }
+  .feed-source {
+    font-size: 9px;
+  }
+  .feed-controls {
+    gap: 16px;
+  }
+  .refresh-countdown {
+    font-size: 9px;
+  }
+  .pause-button,
+  .sample-button {
+    font-size: 10px;
+  }
+  .page-footer {
+    font-size: 8px;
+    align-items: flex-start;
+    line-height: 1.9;
+    padding: 18px 0 23px;
+  }
+  .page-footer > span:first-child {
+    max-width: 190px;
+  }
+  .page-footer > span:last-child {
+    white-space: nowrap;
+    font-size: 9px;
+  }
+  .notice {
+    font-size: 10px;
+    align-items: flex-start;
+    padding: 12px;
+    gap: 8px;
+    margin: 0 0 15px;
+    flex-wrap: wrap;
+    line-height: 1.8;
+  }
+  .notice > span {
+    flex-basis: 80%;
+  }
+  .notice > svg {
+    margin-top: 3px;
+  }
+  .notice button {
+    margin-left: 24px;
+  }
+  .flight-details {
+    padding: 19px 24px 25px;
+  }
+  .aircraft-panel.has-details {
+    min-height: 620px;
+    max-height: 700px;
+  }
+  .flight-identity {
+    margin-top: 24px;
+  }
+  .aircraft-illustration {
+    height: 158px;
+  }
+  .flight-identity h2 {
+    font-size: 26px;
+  }
+  .flight-metrics {
+    gap: 22px 28px;
+  }
+  .flight-metrics strong {
+    font-size: 25px;
+  }
+  .flight-metrics > div > span,
+  .flight-metrics strong small {
+    font-size: 10px;
+  }
+  .position-info > strong {
+    font-size: 12px;
+  }
+  .section-title h3,
+  .section-title > span {
+    font-size: 10px;
+  }
+  .aircraft-facts {
+    font-size: 10px;
+  }
+  .data-note {
+    font-size: 10px;
+  }
+  .detail-tabs button {
+    font-size: 11px;
+  }
+  .position-info > p {
+    font-size: 10px;
+  }
+  .movement-heading p {
+    font-size: 9px;
+  }
+  .movement-summary {
+    font-size: 10px;
+  }
+  .observation {
+    font-size: 10px;
+  }
+  .observation strong {
+    font-size: 10px;
+  }
+  .observation > div > span {
+    font-size: 9px;
+  }
+  .region-dialog {
+    padding: 23px;
+  }
+  .region-grid {
+    gap: 9px;
+  }
+  .region-option {
+    padding: 13px 9px;
+    gap: 7px;
+  }
+  .region-icon svg {
+    width: 21px;
+  }
+  .region-option strong {
+    font-size: 10px;
+  }
+  .region-option small {
+    font-size: 7px;
+  }
+  .region-option > svg {
+    width: 13px;
+  }
+  .dialog-heading h2 {
+    font-size: 22px;
+  }
+  .dialog-description {
+    font-size: 11px;
+  }
+}
+@media (max-width: 420px) {
+  .app-main {
+    padding: 0 12px;
+  }
+  .header-inner {
+    padding: 0 16px;
+    gap: 24px;
+  }
+  .intro {
+    gap: 6px;
+  }
+  h1 {
+    font-size: 26px;
+  }
+  .intro p {
+    font-size: 9px;
+    max-width: 200px;
+  }
+  .connection-block {
+    max-width: 126px;
+    padding-top: 19px;
+  }
+  .connection-pill {
+    font-size: 7px;
+    gap: 4px;
+    padding: 6px;
+  }
+  .connection-pill > i {
+    width: 4px;
+    height: 4px;
+  }
+  .update-caption {
+    font-size: 7px;
+  }
+  .intro-kicker {
+    font-size: 8px;
+  }
+  .map-toolbar {
+    padding: 15px 14px 0;
+  }
+  .region-button {
+    min-width: 207px;
+  }
+  .map-toolbar-right .map-live-label {
+    display: none;
+  }
+  .map-panel {
+    min-height: 455px;
+    max-height: 455px;
+  }
+  .globe-stage {
+    min-height: 370px;
+  }
+  .map-bottom {
+    padding: 14px;
+  }
+  .map-legend {
+    gap: 11px;
+    font-size: 7px;
+  }
+  .map-scale {
+    font-size: 7px;
+  }
+  .globe-instruction {
+    font-size: 8px;
+    bottom: 19px;
+  }
+  .globe-controls {
+    right: 14px;
+    bottom: 44px;
+  }
+  .region-grid {
+    grid-template-columns: 1fr;
+  }
+  .region-option strong {
+    font-size: 11px;
+  }
+  .region-option small {
+    font-size: 9px;
+  }
+  .region-option {
+    gap: 12px;
+  }
+  .page-footer > span:last-child {
+    font-size: 8px;
+  }
+  .page-footer > span:first-child {
+    max-width: 170px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}

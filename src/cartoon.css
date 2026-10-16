@@ -1,0 +1,885 @@
+/* A paper-and-stickers flight desk: heavier ink, sunny fills, bouncy shapes. */
+:root {
+  --ink: #34452e;
+  --muted: #6f7c5c;
+  --coral: #ed8959;
+  --paper: #fffdf2;
+  --line: #d7ddbf;
+  color: var(--ink);
+  background: #fff8e7;
+  font-weight: 600;
+}
+body {
+  background-image: radial-gradient(#d9cda633 0.6px, transparent 0.6px);
+  background-size: 13px 13px;
+}
+.app-header {
+  background: #fffbed;
+  border-bottom: 2px solid #536541;
+}
+.brand {
+  font-size: 31px;
+  font-weight: 1000;
+  letter-spacing: -1.7px;
+  transform: rotate(-2deg);
+}
+.brand-mark {
+  color: #f18452;
+}
+.brand-mark i {
+  border-color: #5a7751;
+  border-width: 2px;
+}
+.header-caption {
+  font-family: "Nunito Variable";
+  font-size: 12px;
+  font-weight: 800;
+  color: #8b8b64;
+}
+.header-inner nav button {
+  font-size: 12px;
+  font-weight: 750;
+}
+.nav-active > span {
+  height: 5px;
+  background: #ed945c;
+  border-radius: 5px;
+}
+.help-button {
+  border: 2px solid #65764c;
+  background: #f9e8ae;
+  box-shadow: 2px 2px 0 #65764c;
+  color: #5a7142;
+}
+.intro {
+  padding-top: 30px;
+  padding-bottom: 28px;
+}
+.intro-kicker {
+  font-size: 11px;
+  font-weight: 750;
+  color: #81915f;
+}
+.intro-kicker > span {
+  width: 7px;
+  height: 7px;
+  background: #e0a14d;
+}
+h1 {
+  font-size: 43px;
+  font-weight: 1000;
+  letter-spacing: -1.7px;
+  text-shadow: 0 2px 0 #c7d4a45c;
+}
+h1 > span {
+  color: #e9934e;
+}
+.intro p {
+  font-size: 12px;
+  color: #78855d;
+  margin-top: 8px;
+}
+.connection-pill {
+  border: 2px solid #8caa64;
+  border-radius: 12px 14px 10px 13px;
+  background: #e2efc6;
+  color: #617d43;
+  padding: 8px 12px;
+  font-size: 11px;
+  box-shadow: 2px 2px 0 #b8c699;
+  transform: rotate(1deg);
+}
+.connection-pill.demo {
+  border-color: #cfa65e;
+  background: #ffedb6;
+  box-shadow: 2px 2px 0 #dfc283;
+  color: #9a7634;
+}
+.connection-pill.waiting {
+  background: #fff0c9;
+  border-color: #d0b27a;
+  color: #9a7e45;
+}
+.notice {
+  background: #fff0bc;
+  border: 2px solid #d4b76b;
+  border-radius: 13px 18px 13px 17px;
+  color: #947337;
+  font-size: 11px;
+  padding: 12px 16px;
+  box-shadow: 3px 3px 0 #ddc8934d;
+}
+.notice button {
+  font-size: 11px;
+  font-weight: 850;
+}
+.notice strong {
+  font-weight: 850;
+}
+.connection-notice {
+  background: #fce7cd;
+  border-color: #d4aa75;
+  color: #9a784a;
+}
+.airspace-workspace {
+  border: 2px solid #667b51;
+  border-radius: 26px 23px 29px 24px;
+  box-shadow: 6px 7px 0 #9bad6d4d;
+  background: #fffdf2;
+}
+.map-panel {
+  background: #deeddb;
+}
+.map-panel::before {
+  opacity: 0.4;
+  background-image: radial-gradient(#6a956538 0.9px, transparent 0.9px);
+  background-size: 22px 22px;
+}
+.world-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 10px 10px;
+  background: #fff5d7;
+  border: 2px solid #8b9a61;
+  border-radius: 14px 18px 13px 16px;
+  box-shadow: 3px 3px 0 #a6b985;
+  transform: rotate(-2deg);
+  pointer-events: auto;
+  color: #5a7346;
+}
+.world-badge > span:nth-child(2) {
+  display: grid;
+  gap: 3px;
+}
+.world-badge small {
+  font-size: 10px;
+  color: #90915c;
+}
+.world-badge strong {
+  font-family: "Nunito Variable";
+  font-size: 16px;
+  font-weight: 950;
+  letter-spacing: -0.3px;
+}
+.world-badge-star {
+  color: #dfaa4a;
+  font-size: 23px;
+  margin-left: 6px;
+}
+.region-pin {
+  width: 34px;
+  height: 34px;
+  background: #e2ebbe;
+  color: #7b9651;
+  border-radius: 11px;
+}
+.layers-button,
+.globe-controls {
+  border: 2px solid #8b9f6b;
+  background: #fff8dd;
+  box-shadow: 3px 3px 0 #a9bc8b80;
+  color: #677e48;
+}
+.layers-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  transform: rotate(4deg);
+}
+.map-live-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #819565;
+}
+.map-live-label svg {
+  color: #7d9c5c;
+}
+.map-bottom {
+  background: #e6efd6;
+  border-top: 1px dashed #b0c39a;
+}
+.map-legend,
+.map-scale {
+  font-size: 10px;
+  color: #83916c;
+}
+.legend-dot {
+  background: #e7a44b;
+  border: 1px solid #b28242;
+}
+.legend-line {
+  height: 2px;
+  background: #bd9757;
+}
+.globe-halo {
+  border-color: #a8c08d6b;
+  box-shadow:
+    0 0 0 31px #bbd4ac1a,
+    0 0 0 32px #94b77c38;
+}
+.globe-instruction {
+  font-size: 11px;
+  color: #7e9367;
+  font-family: "Nunito Variable";
+  font-weight: 750;
+}
+.map-decoration {
+  font-size: 27px;
+  color: #a1b867;
+}
+.globe-loading {
+  border: 2px solid #afbf83;
+  background: #fff7d9;
+  color: #859457;
+  font-size: 11px;
+  box-shadow: 2px 2px 0 #bdd09b;
+}
+.globe-error {
+  border: 2px solid #b7c58e;
+  background: #fff9e6;
+}
+.aircraft-panel {
+  background: #fffdf2;
+  border-left: 2px solid #b7c59b;
+}
+.panel-heading {
+  padding-bottom: 18px;
+}
+.eyebrow {
+  font-size: 10px;
+  color: #9a9d6e;
+  font-weight: 700;
+}
+.panel-heading h2 {
+  font-size: 23px;
+  font-weight: 950;
+  letter-spacing: -0.6px;
+}
+.panel-heading h2 > span {
+  font-size: 11px;
+  background: #e6efc8;
+  color: #7e9656;
+  border: 1px solid #bdcd9a;
+  padding: 4px 6px;
+  transform: rotate(3deg);
+}
+.panel-plane {
+  color: #becc9a;
+  transform: rotate(12deg);
+}
+.aircraft-search {
+  border: 2px solid #d4ddbc;
+  background: #f9faeb;
+  border-radius: 11px;
+}
+.aircraft-search input {
+  font-size: 11px;
+}
+.list-labels {
+  font-size: 9px;
+  color: #9aa17b;
+}
+.flight-icon {
+  border: 1px solid #e2cfa3;
+  border-radius: 11px 9px 12px 9px;
+  background: #fae9bb;
+  color: #b18b4f;
+}
+.aircraft-row:nth-child(3n + 2) .flight-icon {
+  background: #e9efca;
+  border-color: #ccd6a6;
+  color: #91a35f;
+}
+.aircraft-row:nth-child(3n) .flight-icon {
+  background: #fbe1cb;
+  border-color: #e7c3a6;
+  color: #bf9376;
+}
+.aircraft-row {
+  border-bottom: 1px dashed #e0e6cc;
+  border-radius: 10px;
+}
+.aircraft-row:hover {
+  background: #eff3da;
+  transform: translateX(2px);
+}
+.aircraft-name > strong {
+  font-size: 12px;
+  font-weight: 850;
+  color: #6d8050;
+}
+.aircraft-name small {
+  font-size: 10px;
+  color: #94a173;
+}
+.aircraft-altitude > strong {
+  font-size: 11px;
+  color: #7a8e54;
+}
+.aircraft-altitude > small {
+  font-size: 10px;
+  color: #a0ac81;
+}
+.panel-footer {
+  font-size: 10px;
+  background: #f4f6e3;
+  border-top: 1px dashed #ccd7ac;
+  color: #98a779;
+}
+.button {
+  border: 2px solid #b6c48b;
+  background: #eff1cc;
+  box-shadow: 2px 2px 0 #bac88e;
+  border-radius: 10px;
+  font-weight: 850;
+}
+.button.coral {
+  border-color: #c88754;
+  background: #eea06a;
+  box-shadow: 2px 2px 0 #c99161;
+}
+.button:hover {
+  transform: translateY(-1px);
+}
+.airspace-summary {
+  background: #fffbed;
+  border: 2px solid #becd9c;
+  border-radius: 20px 17px 24px 18px;
+  box-shadow: 3px 4px 0 #c5d0a64d;
+  margin-top: 21px;
+}
+.summary-icon {
+  background: #eaf0ce;
+  border: 2px solid #cbd6a5;
+  transform: rotate(-5deg);
+  width: 48px;
+  height: 48px;
+  color: #9aac6c;
+}
+.summary-region strong {
+  font-size: 18px;
+  font-weight: 950;
+}
+.summary-region > div > span {
+  font-size: 10px;
+}
+.summary-stat > span {
+  font-size: 10px;
+}
+.summary-stat > strong {
+  font-size: 29px;
+  font-weight: 950;
+  color: #6c8051;
+}
+.summary-stat > strong > small {
+  font-size: 10px;
+}
+.summary-doodle {
+  display: grid;
+  gap: 4px;
+}
+.summary-doodle .paper-plane {
+  font-family: Arial;
+  font-size: 38px;
+  color: #eaa36e;
+  line-height: 1;
+  transform: rotate(-15deg);
+  display: block;
+}
+.summary-doodle > span:last-child {
+  font-size: 11px;
+  color: #a1ae7b;
+}
+.feed-source,
+.credits,
+.feed-controls {
+  font-size: 10px;
+  color: #9aa77b;
+}
+.feed-details-link {
+  font-size: 10px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #a3ab7f;
+  padding-left: 5px;
+}
+.feed-source a {
+  color: #8c9f6d;
+}
+.pause-button {
+  font-size: 10px;
+  border: 1px solid #cad6a4;
+  background: #eef2d4;
+  color: #99a875;
+  border-radius: 7px;
+}
+.sample-button {
+  font-size: 10px;
+  color: #b29e6f;
+}
+.page-footer {
+  border-top: 1px dashed #d4ddbb;
+  font-size: 10px;
+  color: #abb38e;
+}
+.page-footer > span:last-child {
+  font-size: 11px;
+  font-weight: 900;
+}
+.aircraft-category {
+  font-size: 11px;
+  color: #a5b280;
+  margin: 10px 0 20px 55px;
+}
+.flight-icon.large {
+  background: #f8dfbd;
+  border: 2px solid #ddbc8f;
+  transform: rotate(-5deg);
+  color: #c3915d;
+}
+.flight-identity h2 {
+  font-size: 28px;
+  font-weight: 950;
+  color: #61784a;
+}
+.flight-identity p {
+  font-size: 11px;
+  color: #a4b27d;
+}
+.detail-tabs {
+  margin-top: 19px;
+}
+.detail-tabs button {
+  font-size: 11px;
+  font-weight: 750;
+}
+.detail-tabs button.active::after {
+  height: 3px;
+  background: #dca469;
+}
+.flight-metrics {
+  gap: 12px;
+}
+.flight-metrics > div {
+  background: #f4f5dc;
+  border: 1px solid #e2e8c8;
+  border-radius: 12px;
+  padding: 12px 10px;
+  gap: 8px;
+}
+.flight-metrics > div:nth-child(3n + 2) {
+  background: #fbefd6;
+  border-color: #eee0b9;
+}
+.flight-metrics strong {
+  font-size: 24px;
+  font-weight: 900;
+  color: #7c8d58;
+}
+.flight-metrics > div > span {
+  font-size: 10px;
+  color: #a0ab7c;
+}
+.flight-metrics strong small {
+  font-size: 9px;
+}
+.aircraft-facts {
+  font-size: 10px;
+}
+.position-info > strong {
+  font-size: 12px;
+}
+.data-note {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #a8b38b;
+}
+.movement-heading h3 {
+  font-size: 20px;
+  font-weight: 900;
+}
+.movement-summary {
+  font-size: 10px;
+}
+.movement-summary strong {
+  font-size: 20px;
+  font-weight: 900;
+}
+.model-overlay {
+  position: absolute;
+  z-index: 4;
+  left: 23px;
+  bottom: 55px;
+  max-width: 255px;
+  padding: 12px 14px;
+  background: #fff9e8eb;
+  border: 2px solid #b4c48b;
+  border-radius: 13px 17px 13px 16px;
+  box-shadow: 3px 3px 0 #adbf8780;
+  color: #81965a;
+}
+.model-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Nunito Variable";
+  font-weight: 900;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.model-status.error {
+  font-family: "Manrope Variable";
+  font-size: 10px;
+  color: #b29466;
+  max-width: 220px;
+  line-height: 1.8;
+}
+.model-ready-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a2b871;
+}
+.model-overlay label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #a4af7b;
+}
+.model-overlay select {
+  background: #f9f5db;
+  border: 1px solid #d6ddb9;
+  border-radius: 6px;
+  font-size: 10px;
+  padding: 5px 4px;
+  color: #93a267;
+  min-width: 0;
+}
+.model-overlay small {
+  display: block;
+  font-size: 8px;
+  margin-top: 8px;
+  color: #adb48f;
+}
+.dialog {
+  border: 2px solid #9fb378;
+  border-radius: 24px 20px 28px 22px;
+  background: #fffbed;
+  box-shadow:
+    7px 8px 0 #61774845,
+    0 20px 100px #344b3733;
+}
+.dialog-heading h2 {
+  font-size: 27px;
+  font-weight: 950;
+  color: #7d945b;
+}
+.dialog-description {
+  font-size: 12px;
+  color: #a0ad80;
+}
+.about-planet {
+  gap: 12px;
+}
+.about-planet > span {
+  font-size: 22px;
+  color: #9eb578;
+}
+.about-sections p {
+  font-size: 11px;
+}
+.about-sections strong {
+  font-size: 12px;
+}
+.model-attribution {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #abb58e;
+  margin-top: 18px;
+}
+.model-attribution a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.feed-facts {
+  display: grid;
+  gap: 0;
+  margin: 23px 0;
+  border-top: 1px dashed #d6e0b9;
+}
+.feed-facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px dashed #e0e6c9;
+  font-size: 11px;
+}
+.feed-facts dt {
+  color: #a3af81;
+}
+.feed-facts dd {
+  margin: 0;
+  text-align: right;
+  color: #8a9f64;
+  font-weight: 750;
+}
+.feed-explanation {
+  padding: 16px;
+  background: #f3f4d9;
+  border: 1px solid #dce5bd;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+.feed-explanation strong {
+  font-family: "Nunito Variable";
+  font-size: 16px;
+  font-weight: 900;
+  color: #8da366;
+}
+.feed-explanation p {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #a8b584;
+  margin-top: 7px;
+}
+@media (max-width: 1200px) {
+  .panel-heading h2 {
+    font-size: 21px;
+  }
+  .panel-plane {
+    display: none;
+  }
+  .map-legend,
+  .map-scale {
+    font-size: 9px;
+  }
+  .feed-source,
+  .feed-controls,
+  .credits {
+    font-size: 9px;
+  }
+}
+@media (max-width: 960px) {
+  .world-badge {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .world-badge strong {
+    font-size: 14px;
+  }
+  .world-badge-star {
+    display: none;
+  }
+  .world-badge small {
+    font-size: 9px;
+  }
+  h1 {
+    font-size: 36px;
+  }
+  .panel-heading h2 {
+    font-size: 20px;
+  }
+  .summary-stat > strong {
+    font-size: 25px;
+  }
+  .map-live-label {
+    display: none;
+  }
+  .aircraft-category {
+    margin-left: 0;
+  }
+}
+@media (max-width: 760px) {
+  .intro {
+    display: block;
+    padding: 25px 2px;
+  }
+  .intro h1 {
+    font-size: 37px;
+    letter-spacing: -1.4px;
+  }
+  .intro p {
+    font-size: 11px;
+    max-width: none;
+    line-height: 1.8;
+  }
+  .connection-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    max-width: none;
+    padding-top: 16px;
+  }
+  .connection-pill {
+    font-size: 10px;
+  }
+  .update-caption {
+    font-size: 9px;
+    margin-top: 0;
+  }
+  .intro-kicker {
+    font-size: 10px;
+  }
+  .brand {
+    font-size: 28px;
+  }
+  .airspace-workspace {
+    border-radius: 22px 20px 25px 20px;
+    box-shadow: 4px 5px 0 #9bad6d4d;
+  }
+  .aircraft-panel {
+    border-left: 0;
+    border-top: 2px solid #b7c59b;
+    min-height: 460px;
+    max-height: 540px;
+  }
+  .aircraft-panel.has-details {
+    min-height: 550px;
+    max-height: 650px;
+  }
+  .panel-heading h2 {
+    font-size: 24px;
+  }
+  .panel-plane {
+    display: block;
+  }
+  .world-badge {
+    padding: 9px 12px;
+  }
+  .world-badge strong {
+    font-size: 16px;
+  }
+  .world-badge-star {
+    display: block;
+  }
+  .map-live-label {
+    display: flex;
+    font-size: 9px;
+  }
+  .globe-instruction {
+    font-size: 10px;
+  }
+  .map-legend,
+  .map-scale {
+    font-size: 8px;
+  }
+  .summary-stat > strong {
+    font-size: 29px;
+  }
+  .summary-stat > strong > small {
+    font-size: 9px;
+  }
+  .summary-stat:nth-of-type(4) {
+    grid-column: 1/-1;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    border-top: 1px dashed #d4dfb4;
+    padding-top: 15px;
+  }
+  .summary-stat:nth-of-type(4) > strong {
+    font-size: 21px;
+    margin-top: 0;
+  }
+  .feed-bar {
+    padding-top: 25px;
+  }
+  .feed-source {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .model-overlay {
+    left: 15px;
+    bottom: 54px;
+    max-width: 220px;
+    padding: 10px 11px;
+  }
+  .model-overlay label {
+    font-size: 9px;
+  }
+  .model-overlay select {
+    font-size: 9px;
+    max-width: 145px;
+  }
+  .model-overlay small {
+    font-size: 7px;
+  }
+  .dialog {
+    padding: 22px;
+  }
+  .dialog-heading h2 {
+    font-size: 24px;
+  }
+  .about-planet > span {
+    font-size: 20px;
+  }
+  .feed-facts > div {
+    font-size: 10px;
+  }
+  .flight-metrics strong {
+    font-size: 27px;
+  }
+  .aircraft-category {
+    margin-left: 54px;
+  }
+}
+@media (max-width: 420px) {
+  .intro h1 {
+    font-size: 33px;
+  }
+  .map-live-label {
+    display: none;
+  }
+  .world-badge {
+    padding: 8px 10px;
+  }
+  .world-badge strong {
+    font-size: 14px;
+  }
+  .world-badge .region-pin {
+    width: 29px;
+    height: 30px;
+  }
+  .world-badge-star {
+    font-size: 20px;
+  }
+  .world-badge small {
+    font-size: 9px;
+  }
+  .map-legend {
+    font-size: 7px;
+    gap: 10px;
+  }
+  .map-scale {
+    display: none;
+  }
+  .model-overlay {
+    max-width: 202px;
+  }
+  .model-overlay select {
+    max-width: 130px;
+  }
+  .globe-instruction {
+    font-size: 9px;
+  }
+  .panel-heading h2 {
+    font-size: 23px;
+  }
+  .page-footer {
+    font-size: 8px;
+  }
+  .page-footer > span:last-child {
+    font-size: 9px;
+  }
+  .about-planet {
+    flex-wrap: wrap;
+  }
+  .feed-facts dd {
+    max-width: 185px;
+  }
+}

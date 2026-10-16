@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.cache/
+.env
+.env.*
+!.env.example
+credentials.json
+test-results/
+*.log
+public/assets/*.glb
+.vercel/
